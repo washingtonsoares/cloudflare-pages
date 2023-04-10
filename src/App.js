@@ -33,26 +33,41 @@ export default function App() {
   );
 }
 
+const fetchLinks = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { id: 1, name: "Home", url: "/" },
+        { id: 2, name: "About", url: "/about" },
+        { id: 3, name: "Dashboard", url: "/dashboard" },
+      ]);
+    }, 5000);
+  });
+};
+
 function Layout() {
+  const [links, setLinks] = React.useState([]);
+
+  React.useEffect(() => {
+    fetchLinks().then((links) => setLinks(links));
+  }, []);
+
   return (
     <div>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
       <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/nothing-here">Nothing Here</Link>
-          </li>
-        </ul>
+        {links ? (
+          <ul>
+            {links.map((link) => (
+              <li key={link.id}>
+                <Link to={link.url}>{link.name}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Loading...</p>
+        )}
       </nav>
 
       <hr />
