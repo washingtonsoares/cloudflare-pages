@@ -50,7 +50,7 @@ function Layout() {
 
   React.useEffect(() => {
     fetch(
-      "https://hub.dummyapis.com/delay?seconds=3"
+      "https://hub.dummyapis.com/delay?seconds=5"
     )
       .then((res) => res.text())
       .then(data => {
