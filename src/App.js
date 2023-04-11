@@ -46,29 +46,24 @@ const fetchLinks = () => {
 };
 
 function Layout() {
-  const [links, setLinks] = React.useState([]);
+  const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetchLinks().then((links) => setLinks(links));
+    fetch(
+      "https://hub.dummyapis.com/delay?seconds=3"
+    )
+      .then((res) => res.text())
+      .then(data => {
+        console.log({data })
+        setData(data)
+      });
   }, []);
 
   return (
     <div>
       {/* A "layout route" is a good place to put markup you want to
           share across all the pages on your site, like navigation. */}
-      <nav>
-        {links ? (
-          <ul>
-            {links.map((link) => (
-              <li key={link.id}>
-                <Link to={link.url}>{link.name}</Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </nav>
+      <nav>{data ? <h1>{data}</h1> : <p>Loading...</p>}</nav>
 
       <hr />
 
